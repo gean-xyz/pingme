@@ -1,0 +1,16 @@
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.csprojAssemblyReference.cache
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.AssemblyInfoInputs.cache
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.AssemblyInfo.cs
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.csproj.CoreCompileInputs.cache
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.exe
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.deps.json
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.runtimeconfig.json
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.runtimeconfig.dev.json
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.dll
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\ref\PingMe.dll
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\bin\Debug\net5.0\PingMe.pdb
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.dll
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\ref\PingMe.dll
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.pdb
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.genruntimeconfig.cache
