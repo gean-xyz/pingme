@@ -19,7 +19,7 @@ namespace PingMe
       }
       else if (isOSX)
       {
-        Console.WriteLine("OSX FOUND");
+        Console.WriteLine("OSX currently not implemented!");
       }
       else if (isWindows)
       {
@@ -29,11 +29,12 @@ namespace PingMe
       {
         Console.WriteLine("NO OPERATING SYSTEM DETECTED");
       }
-
     }
 
-    private bool FindProgram()
+
+    private void pingWithLinux()
     {
+      Console.WriteLine("PING WITH LINUX");
       var process = new Process();
       try
       {
@@ -43,37 +44,40 @@ namespace PingMe
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.Start();
-        //Console.WriteLine("found1: " + process.StandardOutput);
-        //Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
-        //StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
+       
         String s = process.StandardOutput.ReadToEnd();
         Console.WriteLine($"s: {s}");
 
-        //var pingproc = new Process();
-        //try
-        //{
-        //  pingproc.StartInfo.FileName = s;
-        //  pingproc.StartInfo.Arguments = "";
-        //  pingproc.StartInfo.CreateNoWindow = true;
-        //  pingproc.StartInfo.UseShellExecute = false;
-        //  pingproc.StartInfo.RedirectStandardOutput = true;
-        //  pingproc.Start();
-        //  //StreamReader sr2 = new StreamReader(pingproc.StandardOutput.ReadToEnd());
-        //  String s2 = pingproc.StandardOutput.ReadToEnd();
-        //  Console.WriteLine($"s2: {s2}");
-
-        //}
-        //catch (Exception e)
-        //{
-        //  Console.WriteLine("error on pingproc: " + e);
-        //}
       }
       catch (Exception e)
       {
         Console.WriteLine($"EXCEPTION-11: {e}");
       }
 
-      return false;
+    }
+
+    private void pingWithWindows()
+    {
+      Console.WriteLine("PING WITH WINDOWS");
+      var process = new Process();
+      try
+      {
+        process.StartInfo.FileName = "ping";
+        process.StartInfo.Arguments = "-n 2 localhost";
+        process.StartInfo.CreateNoWindow = true;
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.Start();
+
+        String s = process.StandardOutput.ReadToEnd();
+        Console.WriteLine($"s: {s}");
+
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine($"EXCEPTION-11: {e}");
+      }
+
     }
   }
 }
