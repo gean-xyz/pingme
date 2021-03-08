@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "Fr4lXBdrHpY/zCbMLkxLODpddCjxHuvSQfLV7msZxX7mGAAPPegNvmBeYKvPw57dYq1Ls0DjrzfgA/SsQfv0qg==",
+  "dgSpecHash": "wB/0uBFIveoWSJ5sbNGaPv73HqkEtO1ys+68pmbbOo81cHTuH1lq4hv+55lrAUHIqc4y71H64k8pNkmeu7U9iQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Gean\\Git-Repos\\pingme\\vs\\PingMe\\PingMe.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.3\\microsoft.netcore.app.runtime.win-x64.5.0.3.nupkg.sha512",
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\5.0.3\\microsoft.netcore.app.runtime.linux-x64.5.0.3.nupkg.sha512",
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\5.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.5.0.3.nupkg.sha512",
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.3\\microsoft.aspnetcore.app.runtime.win-x64.5.0.3.nupkg.sha512",
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\5.0.3\\microsoft.aspnetcore.app.runtime.linux-x64.5.0.3.nupkg.sha512",
+    "C:\\Users\\Gean\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\5.0.3\\microsoft.netcore.app.host.linux-x64.5.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
