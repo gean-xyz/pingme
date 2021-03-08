@@ -342,3 +342,5 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+vs/PingMe/obj/Debug/net5.0/PingMe.assets.cache
+vs/PingMe/obj/Debug/net5.0/PingMe.csproj.FileListAbsolute.txt
