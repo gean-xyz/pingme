@@ -15,7 +15,7 @@ namespace PingMe
 
       if (isLinux)
       {
-        Console.WriteLine("LINUX FOUND");
+        pingWithLinux();
       }
       else if (isOSX)
       {
@@ -23,7 +23,7 @@ namespace PingMe
       }
       else if (isWindows)
       {
-        Console.WriteLine("WINDOWS FOUND");
+        pingWithWindows();
       }
       else
       {
