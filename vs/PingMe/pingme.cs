@@ -25,8 +25,8 @@ namespace PingMe
       var process = new Process();
       try
       {
-        process.StartInfo.FileName = "which";
-        process.StartInfo.Arguments = "ping";
+        process.StartInfo.FileName = "ping";
+        process.StartInfo.Arguments = " -c 2 localhost";
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
@@ -37,24 +37,24 @@ namespace PingMe
         String s = process.StandardOutput.ReadToEnd();
         Console.WriteLine($"s: {s}");
 
-        var pingproc = new Process();
-        try
-        {
-          pingproc.StartInfo.FileName = s;
-          pingproc.StartInfo.Arguments = "";
-          pingproc.StartInfo.CreateNoWindow = true;
-          pingproc.StartInfo.UseShellExecute = false;
-          pingproc.StartInfo.RedirectStandardOutput = true;
-          pingproc.Start();
-          //StreamReader sr2 = new StreamReader(pingproc.StandardOutput.ReadToEnd());
-          String s2 = pingproc.StandardOutput.ReadToEnd();
-          Console.WriteLine($"s2: {s2}");
+        //var pingproc = new Process();
+        //try
+        //{
+        //  pingproc.StartInfo.FileName = s;
+        //  pingproc.StartInfo.Arguments = "";
+        //  pingproc.StartInfo.CreateNoWindow = true;
+        //  pingproc.StartInfo.UseShellExecute = false;
+        //  pingproc.StartInfo.RedirectStandardOutput = true;
+        //  pingproc.Start();
+        //  //StreamReader sr2 = new StreamReader(pingproc.StandardOutput.ReadToEnd());
+        //  String s2 = pingproc.StandardOutput.ReadToEnd();
+        //  Console.WriteLine($"s2: {s2}");
 
-        }
-        catch (Exception e)
-        {
-          Console.WriteLine("error on pingproc: " + e);
-        }
+        //}
+        //catch (Exception e)
+        //{
+        //  Console.WriteLine("error on pingproc: " + e);
+        //}
       }
       catch (Exception e)
       {
