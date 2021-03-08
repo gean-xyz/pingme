@@ -41,7 +41,7 @@ namespace PingMe
         try
         {
           pingproc.StartInfo.FileName = s;
-          pingproc.StartInfo.Arguments = " -c 2 localhost";
+          pingproc.StartInfo.Arguments = "";
           pingproc.StartInfo.CreateNoWindow = true;
           pingproc.StartInfo.UseShellExecute = false;
           pingproc.StartInfo.RedirectStandardOutput = true;
