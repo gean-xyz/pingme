@@ -26,7 +26,7 @@ namespace PingMe
       try
       {
         process.StartInfo.FileName = "ping";
-        process.StartInfo.Arguments = " -c 2 localhost";
+        process.StartInfo.Arguments = "-c 2 localhost";
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
