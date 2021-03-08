@@ -34,17 +34,21 @@ namespace PingMe
         //Console.WriteLine("found1: " + process.StandardOutput);
         //Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
         StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
+        String s = sr.ReadToEnd();
+        Console.WriteLine($"s: ${s}");
 
         var pingproc = new Process();
         try
         {
-          pingproc.StartInfo.FileName = process.StandardOutput.ToString();
+          pingproc.StartInfo.FileName = s;
           pingproc.StartInfo.Arguments = "-c 2 localhost";
           pingproc.StartInfo.CreateNoWindow = false;
           pingproc.StartInfo.UseShellExecute = false;
           pingproc.StartInfo.RedirectStandardOutput = true;
-
-          Console.WriteLine("pingproc stdout: " + sr.ReadToEnd());
+          pingproc.Start();
+          StreamReader sr2 = new StreamReader(pingproc.StandardOutput.ReadToEnd());
+          String s2 = sr2.ReadToEnd();
+          Console.WriteLine($"s2: {s2}");
 
         } catch(Exception e) {
           Console.WriteLine("error on pingproc: " + e);
