@@ -33,8 +33,8 @@ namespace PingMe
         process.Start();
         //Console.WriteLine("found1: " + process.StandardOutput);
         //Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
-        StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
-        String s = sr.ReadToEnd();
+        //StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
+        String s = process.StandardOutput.ReadToEnd();
         Console.WriteLine($"s: ${s}");
 
         //var pingproc = new Process();
