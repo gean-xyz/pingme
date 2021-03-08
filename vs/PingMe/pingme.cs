@@ -56,7 +56,7 @@ namespace PingMe
       }
       catch (Exception e)
       {
-        Console.WriteLine($"EXCEPTION-1: {e}");
+        Console.WriteLine($"EXCEPTION-11: {e}");
       }
 
       return false;
