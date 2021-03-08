@@ -31,8 +31,8 @@ namespace PingMe
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.Start();
-        Console.WriteLine("found1: " + process.StandardOutput);
-        Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
+        //Console.WriteLine("found1: " + process.StandardOutput);
+        //Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
         StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
 
         var pingproc = new Process();
