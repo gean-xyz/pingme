@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace PingMe
@@ -30,7 +31,9 @@ namespace PingMe
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.Start();
-        Console.WriteLine("found: " + process.StandardOutput);
+        Console.WriteLine("found1: " + process.StandardOutput);
+        Console.WriteLine("found2: " + process.StandardOutput.ReadToEnd());
+        StreamReader sr = new StreamReader(process.StandardOutput.ReadToEnd());
 
         var pingproc = new Process();
         try
@@ -41,8 +44,7 @@ namespace PingMe
           pingproc.StartInfo.UseShellExecute = false;
           pingproc.StartInfo.RedirectStandardOutput = true;
 
-          Console.WriteLine("pingproc stdout: " + pingproc.StandardOutput);
-          Console.WriteLine("pingproc stderr: " + pingproc.StandardError);
+          Console.WriteLine("pingproc stdout: " + sr.ReadToEnd());
 
         } catch(Exception e) {
           Console.WriteLine("error on pingproc: " + e);
