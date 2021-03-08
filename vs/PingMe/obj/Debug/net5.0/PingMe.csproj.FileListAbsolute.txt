@@ -13,3 +13,4 @@ C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.dll
 C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\ref\PingMe.dll
 C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.pdb
 C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.genruntimeconfig.cache
+C:\Users\Gean\Git-Repos\pingme\vs\PingMe\obj\Debug\net5.0\PingMe.csprojAssemblyReference.cache

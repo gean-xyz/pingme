@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PingMe
@@ -10,14 +11,28 @@ namespace PingMe
   {
     public pingme()
     {
-      if (FindProgram())
+      // os detection
+      var isLinux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+      var isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+      var isWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+      if (isLinux)
       {
-        Console.WriteLine("TRUE");
+        Console.WriteLine("LINUX FOUND");
+      }
+      else if (isOSX)
+      {
+        Console.WriteLine("OSX FOUND");
+      }
+      else if (isWindows)
+      {
+        Console.WriteLine("WINDOWS FOUND");
       }
       else
       {
-        Console.WriteLine("FALSE");
+        Console.WriteLine("NO OPERATING SYSTEM DETECTED");
       }
+
     }
 
     private bool FindProgram()
