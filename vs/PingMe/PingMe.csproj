@@ -6,8 +6,9 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRun>false</PublishReadyToRun>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>pingMe</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
