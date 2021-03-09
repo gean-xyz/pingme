@@ -17,7 +17,7 @@ namespace PingMe
     {
       Console.WriteLine($"pingme version: {version}");
 
-      // no host/ip 
+      /* no host/ip */
       if (args == null || args.Length == 0)
       {
         Console.WriteLine("No hosts or ip specified!");
@@ -41,11 +41,10 @@ namespace PingMe
         }
       }
 
-
-      // detect host/ip
+      /* detect host/ip */
       if (Regex.IsMatch(args[0], @"^[a-zA-Z0-9.-]+$"))
       {
-        // verify ip address
+        /* verify ip address */
         if (Regex.IsMatch(args[0], @"^[0-9.]+$"))
         {
           IPAddress ip;
@@ -59,12 +58,10 @@ namespace PingMe
         }
         else
         {
-          // no ip detected - it must be a dns name
-          IPHostEntry host = null;
-
+          /* no ip detected - it must be a dns name */
           try
           {
-            host = Dns.GetHostEntry(args[0]);
+            IPHostEntry host = Dns.GetHostEntry(args[0]);
             hostToPing = host.HostName;
           }
           catch (Exception)
@@ -82,7 +79,7 @@ namespace PingMe
 
       Console.WriteLine($"host: {hostToPing}");
 
-      // os detection
+      /* os detection */
       var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
       var isOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
       var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -101,7 +98,8 @@ namespace PingMe
       }
       else
       {
-        Console.WriteLine("NO OPERATING SYSTEM DETECTED");
+        Console.WriteLine("NO OPERATING SYSTEM DETECTED - WHAT ARE YOU USING?!");
+        Console.WriteLine("If you are kind, please inform the developer!");
       }
     }
 
@@ -112,6 +110,7 @@ namespace PingMe
       while (true)
       {
         var process = new Process();
+
         try
         {
           process.StartInfo.FileName = "ping";
@@ -146,12 +145,11 @@ namespace PingMe
           Thread.Sleep(timeBetweenPings);
 
         }
-        catch (Exception e)
+        catch (Exception)
         {
-          Console.WriteLine($"EXCEPTION-11: {e}");
+          Console.WriteLine("Problem finding program ping! Please inform the developer!");
         }
       }
-
     }
 
     private void pingWithWindows(string host)
@@ -193,16 +191,12 @@ namespace PingMe
           }
 
           Thread.Sleep(timeBetweenPings);
-
         }
-        catch (Exception e)
+        catch (Exception)
         {
-          Console.WriteLine($"EXCEPTION-11: {e}");
+          Console.WriteLine("Problem finding program ping! Please inform the developer!");
         }
       }
-
-
-
     }
 
     private void printHelp()
