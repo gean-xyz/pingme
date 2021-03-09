@@ -2,7 +2,7 @@
   "profiles": {
     "PingMe": {
       "commandName": "Project",
-      "commandLineArgs": "localhost"
+      "commandLineArgs": "www.google.at"
     }
   }
 }

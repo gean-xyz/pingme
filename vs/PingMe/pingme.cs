@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -43,10 +44,41 @@ namespace PingMe
       }
 
 
+
+
       // detect host/ip
       if (Regex.IsMatch(args[0], @"^[a-zA-Z0-9.-]+$"))
       {
-        hostToPing = args[0];
+        // verify ip address
+        if (Regex.IsMatch(args[0], @"^[0-9.]+$"))
+        {
+          IPAddress ip;
+          //Console.WriteLine("only numbers detected");
+
+          IPAddress.TryParse(args[0], out ip);
+          if (ip == null)
+          {
+            Console.WriteLine($"Wrong ip address detected! ({args[0]})");
+            Environment.Exit(1);
+          }
+          hostToPing = ip.ToString();
+        }
+        else
+        {
+          // no ip detected - it must be a dns name
+          IPHostEntry host = null;
+          try
+          {
+            host = Dns.GetHostEntry(args[0]);
+            hostToPing = host.HostName;
+          }
+          catch (Exception e)
+          {
+            Console.WriteLine($"Host {args[0]} cannot be resolved....");
+            Environment.Exit(1);
+          }
+        }
+
       }
       else
       {
@@ -55,7 +87,7 @@ namespace PingMe
       }
 
 
-     
+
       Console.WriteLine($"host: {hostToPing}");
 
 
@@ -66,14 +98,14 @@ namespace PingMe
 
       if (isLinux)
       {
-        if (checkResolvablenessLinux(hostToPing))
-        {
+        //if (checkResolvablenessLinux(hostToPing))
+        //{
           pingWithLinux(hostToPing);
-        }
-        else
-        {
-          Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
-        }
+        //}
+        //else
+        //{
+        //  Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
+        //}
       }
       else if (isOSX)
       {
@@ -81,14 +113,14 @@ namespace PingMe
       }
       else if (isWindows)
       {
-        if (checkResolvablenessWindows(hostToPing))
-        {
+        //if (checkResolvablenessWindows(hostToPing))
+        //{
           pingWithWindows(hostToPing);
-        }
-        else
-        {
-          Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
-        }
+        //}
+        //else
+        //{
+        //  Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
+        //}
       }
       else
       {
@@ -278,12 +310,12 @@ namespace PingMe
       Console.WriteLine("args can be: ");
       Console.WriteLine(" -h / --help: print this page");
       Console.WriteLine("------- still under development! --------");
-      Console.WriteLine(" -l / --log: write output to logfile and console" );
+      Console.WriteLine(" -l / --log: write output to logfile and console");
       Console.WriteLine(" -L / --logOnly: write output to logfile only");
       Console.WriteLine("                 does not output anything to console");
       Console.WriteLine(" -m / --mail: send mail to that address when status changes");
       Console.WriteLine("              currently only one mail address is possible.");
     }
-    
+
   }
 }
