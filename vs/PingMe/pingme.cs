@@ -16,8 +16,6 @@ namespace PingMe
     public pingme(string[] args)
     {
       Console.WriteLine($"pingme version: {version}");
-      Console.WriteLine("");
-
 
       // no host/ip 
       if (args == null || args.Length == 0)
@@ -44,8 +42,6 @@ namespace PingMe
       }
 
 
-
-
       // detect host/ip
       if (Regex.IsMatch(args[0], @"^[a-zA-Z0-9.-]+$"))
       {
@@ -53,8 +49,6 @@ namespace PingMe
         if (Regex.IsMatch(args[0], @"^[0-9.]+$"))
         {
           IPAddress ip;
-          //Console.WriteLine("only numbers detected");
-
           IPAddress.TryParse(args[0], out ip);
           if (ip == null)
           {
@@ -79,7 +73,6 @@ namespace PingMe
             Environment.Exit(1);
           }
         }
-
       }
       else
       {
@@ -87,10 +80,7 @@ namespace PingMe
         Environment.Exit(2);
       }
 
-
-
       Console.WriteLine($"host: {hostToPing}");
-
 
       // os detection
       var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
@@ -99,14 +89,7 @@ namespace PingMe
 
       if (isLinux)
       {
-        //if (checkResolvablenessLinux(hostToPing))
-        //{
           pingWithLinux(hostToPing);
-        //}
-        //else
-        //{
-        //  Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
-        //}
       }
       else if (isOSX)
       {
@@ -114,85 +97,12 @@ namespace PingMe
       }
       else if (isWindows)
       {
-        //if (checkResolvablenessWindows(hostToPing))
-        //{
           pingWithWindows(hostToPing);
-        //}
-        //else
-        //{
-        //  Console.WriteLine($"Host {hostToPing} is not resolvable! Aborting..");
-        //}
       }
       else
       {
         Console.WriteLine("NO OPERATING SYSTEM DETECTED");
       }
-    }
-
-    private bool checkResolvablenessLinux(string host)
-    {
-      bool retValue = false;
-      var process = new Process();
-      try
-      {
-        process.StartInfo.FileName = "ping";
-        process.StartInfo.Arguments = $"-c 1 {host}";
-        process.StartInfo.CreateNoWindow = true;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.Start();
-
-        String s = process.StandardOutput.ReadToEnd();
-
-        if (s.Contains(" 0% packet loss"))
-        {
-          retValue = true;
-        }
-        else
-        {
-          retValue = false;
-        }
-
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine($"EXCEPTION-12: {e}");
-        retValue = false;
-      }
-      return retValue;
-    }
-
-    private bool checkResolvablenessWindows(string host)
-    {
-      bool retValue = false;
-      var process = new Process();
-      try
-      {
-        process.StartInfo.FileName = "ping";
-        process.StartInfo.Arguments = $"-n 1 {host}";
-        process.StartInfo.CreateNoWindow = true;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.Start();
-
-        String s = process.StandardOutput.ReadToEnd();
-
-        if (s.Contains("(0% loss)"))
-        {
-          retValue = true;
-        }
-        else
-        {
-          retValue = false;
-        }
-
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine($"EXCEPTION-12: {e}");
-        retValue = false;
-      }
-      return retValue;
     }
 
     private void pingWithLinux(string host)
@@ -204,7 +114,7 @@ namespace PingMe
         try
         {
           process.StartInfo.FileName = "ping";
-          process.StartInfo.Arguments = $"-c 1 {host}";
+          process.StartInfo.Arguments = $"-c 1 -W 1 {host}";
           process.StartInfo.CreateNoWindow = true;
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
@@ -258,7 +168,7 @@ namespace PingMe
         try
         {
           process.StartInfo.FileName = "ping";
-          process.StartInfo.Arguments = $"-n 1 {host}";
+          process.StartInfo.Arguments = $"-n 1 -w 1000 {host}";
           process.StartInfo.CreateNoWindow = true;
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
@@ -317,6 +227,72 @@ namespace PingMe
       Console.WriteLine(" -m / --mail: send mail to that address when status changes");
       Console.WriteLine("              currently only one mail address is possible.");
     }
+
+    //private bool checkResolvablenessLinux(string host)
+    //{
+    //  bool retValue = false;
+    //  var process = new Process();
+    //  try
+    //  {
+    //    process.StartInfo.FileName = "ping";
+    //    process.StartInfo.Arguments = $"-c 1 {host}";
+    //    process.StartInfo.CreateNoWindow = true;
+    //    process.StartInfo.UseShellExecute = false;
+    //    process.StartInfo.RedirectStandardOutput = true;
+    //    process.Start();
+
+    //    String s = process.StandardOutput.ReadToEnd();
+
+    //    if (s.Contains(" 0% packet loss"))
+    //    {
+    //      retValue = true;
+    //    }
+    //    else
+    //    {
+    //      retValue = false;
+    //    }
+
+    //  }
+    //  catch (Exception e)
+    //  {
+    //    Console.WriteLine($"EXCEPTION-12: {e}");
+    //    retValue = false;
+    //  }
+    //  return retValue;
+    //}
+
+    //private bool checkResolvablenessWindows(string host)
+    //{
+    //  bool retValue = false;
+    //  var process = new Process();
+    //  try
+    //  {
+    //    process.StartInfo.FileName = "ping";
+    //    process.StartInfo.Arguments = $"-n 1 {host}";
+    //    process.StartInfo.CreateNoWindow = true;
+    //    process.StartInfo.UseShellExecute = false;
+    //    process.StartInfo.RedirectStandardOutput = true;
+    //    process.Start();
+
+    //    String s = process.StandardOutput.ReadToEnd();
+
+    //    if (s.Contains("(0% loss)"))
+    //    {
+    //      retValue = true;
+    //    }
+    //    else
+    //    {
+    //      retValue = false;
+    //    }
+
+    //  }
+    //  catch (Exception e)
+    //  {
+    //    Console.WriteLine($"EXCEPTION-12: {e}");
+    //    retValue = false;
+    //  }
+    //  return retValue;
+    //}
 
   }
 }
