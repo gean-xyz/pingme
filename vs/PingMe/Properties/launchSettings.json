@@ -2,7 +2,7 @@
   "profiles": {
     "PingMe": {
       "commandName": "Project",
-      "commandLineArgs": "-l c:/tmp/1/test.log -i 4.2.2.1"
+      "commandLineArgs": ""
     }
   }
 }

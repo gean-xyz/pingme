@@ -10,7 +10,7 @@ namespace PingMe
 {
   public class pingme
   {
-    private string version = "v0.4-2021";
+    private string version = "3.0";
     private int timeBetweenPings = 1000;
 
     private static string hostToPing = "";
@@ -96,7 +96,6 @@ namespace PingMe
       }
 
       sendToOutput($"program version: {version}", true);
-      sendToOutput($"running at: " + DateTime.Now, true);
 
       /* detect host/ip */
       if (Regex.IsMatch(hostToPing, @"^[a-zA-Z0-9.-]+$"))
@@ -134,7 +133,7 @@ namespace PingMe
         Environment.Exit(6);
       }
 
-      sendToOutput($"host: {hostToPing}", true);
+      sendToOutput($"testing host: {hostToPing}", true);
 
       /* os detection */
       var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
