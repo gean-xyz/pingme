@@ -16,6 +16,7 @@ namespace PingMe
     private static string hostToPing = "";
     private bool logToFile = false;
     private static string logfile = "";
+    private bool quietOutput = false;
 
     public pingme(string[] args)
     {
@@ -30,7 +31,6 @@ namespace PingMe
       /* parsing arguments */
       foreach (string a in args)
       {
-        //Console.WriteLine("arg: " + a);
         if (a.Contains("--help") || a.Contains("-h"))
         {
           printHelp();
@@ -70,10 +70,29 @@ namespace PingMe
             else
             {
               Console.WriteLine("YOU DIDN'T SPECIFY A HOST OR IP ADDRESS!");
-              Environment.Exit(1);
+              Environment.Exit(2);
             }
           }
         }
+
+        if (a.Contains("-q"))
+        {
+          quietOutput = true;
+        }
+      }
+
+      /* hostToPing is mandatory to run */
+      if (hostToPing.Length <= 0)
+      {
+        Console.WriteLine("Please specify dns hostname or ip address!");
+        Environment.Exit(7);
+      }
+
+      /* no logfile and quiet output are meant for this script */
+      if (!logToFile && !quietOutput)
+      {
+        Console.WriteLine("No logfile and quiet output makes no sense.. ;)");
+        Environment.Exit(3);
       }
 
       sendToOutput($"program version: {version}", true);
@@ -90,7 +109,7 @@ namespace PingMe
           if (ip == null)
           {
             sendToOutput($"Wrong ip address detected! ({hostToPing})", true);
-            Environment.Exit(1);
+            Environment.Exit(4);
           }
           hostToPing = ip.ToString();
         }
@@ -105,14 +124,14 @@ namespace PingMe
           catch (Exception)
           {
             sendToOutput($"Host {hostToPing} cannot be resolved...", true);
-            Environment.Exit(1);
+            Environment.Exit(5);
           }
         }
       }
       else
       {
         sendToOutput("Wrong input detected! Are you kidding me?!", true);
-        Environment.Exit(2);
+        Environment.Exit(6);
       }
 
       sendToOutput($"host: {hostToPing}", true);
@@ -266,13 +285,16 @@ namespace PingMe
         Console.WriteLine($"Error with logfile: {logfile}");
       }
 
-      if (newLine)
+      if (!quietOutput)
       {
-        Console.WriteLine(message);
-      }
-      else
-      {
-        Console.Write(message);
+        if (newLine)
+        {
+          Console.WriteLine(message);
+        }
+        else
+        {
+          Console.Write(message);
+        }
       }
     }
 
@@ -280,13 +302,14 @@ namespace PingMe
     {
       Console.WriteLine("Usage: pingMe [args] -i host [args] ");
       Console.WriteLine("args can be: ");
-      Console.WriteLine(" -h / --help: print this page");
-      Console.WriteLine(" -i: dns hostname or ip address" );
-      Console.WriteLine("     this argument is mandatory!");
-      Console.WriteLine(" -l: write output to logfile and console");
+      Console.WriteLine(" -h: help  - print this page");
+      Console.WriteLine(" -i: input - dns hostname or ip address");
+      Console.WriteLine("             this argument is mandatory!");
+      Console.WriteLine(" -l: log   - write output to logfile and console");
+      Console.WriteLine(" -q: quiet - no output on console except errors");
       Console.WriteLine("------- still under development! --------");
-      Console.WriteLine(" -m: send mail to that address when status changes");
-      Console.WriteLine("     currently only one mail address is possible.");
+      Console.WriteLine(" -m: mail  - send mail to that address when status changes");
+      Console.WriteLine("             currently only one mail address is possible.");
     }
   }
 }
