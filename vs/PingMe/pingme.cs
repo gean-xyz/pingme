@@ -89,7 +89,7 @@ namespace PingMe
       }
 
       /* no logfile and quiet output are meant for this script */
-      if (!logToFile && !quietOutput)
+      if (!logToFile && quietOutput)
       {
         Console.WriteLine("No logfile and quiet output makes no sense.. ;)");
         Environment.Exit(3);
