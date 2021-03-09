@@ -89,7 +89,7 @@ namespace PingMe
 
       if (isLinux)
       {
-          pingWithLinux(hostToPing);
+        pingWithLinux(hostToPing);
       }
       else if (isOSX)
       {
@@ -97,7 +97,7 @@ namespace PingMe
       }
       else if (isWindows)
       {
-          pingWithWindows(hostToPing);
+        pingWithWindows(hostToPing);
       }
       else
       {
@@ -108,6 +108,7 @@ namespace PingMe
     private void pingWithLinux(string host)
     {
       bool isPingable = true;
+      Console.WriteLine("initial ALIVE - " + DateTime.Now);
       while (true)
       {
         var process = new Process();
@@ -125,27 +126,21 @@ namespace PingMe
 
           if (s.Contains(" 0% packet loss"))
           {
-            if (isPingable)
-            {
-              Console.Write(".");
-            }
-            else
+            if (!isPingable)
             {
               Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
+              isPingable = true;
             }
-            isPingable = true;
+            Console.Write(".");
           }
           else
           {
             if (isPingable)
             {
               Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
+              isPingable = false;
             }
-            else
-            {
-              Console.Write(".");
-            }
-            isPingable = false;
+            Console.Write(".");
           }
 
           Thread.Sleep(timeBetweenPings);
@@ -162,6 +157,7 @@ namespace PingMe
     private void pingWithWindows(string host)
     {
       bool isPingable = true;
+      Console.WriteLine("initial ALIVE - " + DateTime.Now);
       while (true)
       {
         var process = new Process();
@@ -179,27 +175,21 @@ namespace PingMe
 
           if (s.Contains("(0% loss)"))
           {
-            if (isPingable)
-            {
-              Console.Write(".");
-            }
-            else
+            if (!isPingable)
             {
               Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
+              isPingable = true;
             }
-            isPingable = true;
+            Console.Write(".");
           }
           else
           {
             if (isPingable)
             {
               Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
+              isPingable = false;
             }
-            else
-            {
-              Console.Write(".");
-            }
-            isPingable = false;
+            Console.Write(".");
           }
 
           Thread.Sleep(timeBetweenPings);

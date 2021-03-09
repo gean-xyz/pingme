@@ -2,7 +2,7 @@
   "profiles": {
     "PingMe": {
       "commandName": "Project",
-      "commandLineArgs": "www.google.at"
+      "commandLineArgs": "4.2.2.12"
     }
   }
 }
