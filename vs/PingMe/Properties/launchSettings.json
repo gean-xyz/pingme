@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PingMe": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}
