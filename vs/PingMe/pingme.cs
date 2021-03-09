@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -9,49 +10,86 @@ namespace PingMe
 {
   public class pingme
   {
-    private string version = "v0.3-2021";
+    private string version = "v0.4-2021";
     private int timeBetweenPings = 1000;
-    private string hostToPing = "";
+
+    private static string hostToPing = "";
+    private bool logToFile = false;
+    private static string logfile = "";
 
     public pingme(string[] args)
     {
-      Console.WriteLine($"pingme version: {version}");
-
       /* no host/ip */
       if (args == null || args.Length == 0)
       {
-        Console.WriteLine("No hosts or ip specified!");
+        Console.WriteLine("No arguments specified!");
+        printHelp();
         Environment.Exit(1);
       }
-      else
-      {
-        foreach (string a in args)
-        {
-          if (a.Contains("--help") || a.Contains("-h"))
-          {
-            printHelp();
-            Environment.Exit(0);
-          }
 
-          if (a.Contains("-l") || a.Contains("--log"))
+      /* parsing arguments */
+      foreach (string a in args)
+      {
+        //Console.WriteLine("arg: " + a);
+        if (a.Contains("--help") || a.Contains("-h"))
+        {
+          printHelp();
+          Environment.Exit(0);
+        }
+
+        if (a.Contains("-l"))
+        {
+          var i1 = Array.FindIndex(args, row => row.Contains("-l"));
+          if (i1 >= 0)
           {
-            Console.WriteLine("-l / --log detected!");
-            Console.WriteLine("jo und jetzt?");
+            if ((args.Length - 1) >= (i1 + 1))
+            {
+              logfile = args[i1 + 1];
+              if (logfile.Length > 0)
+              {
+                logToFile = true;
+              }
+            }
+            else
+            {
+              Console.WriteLine("YOU DIDN'T SPECIFY A LOGFILE!");
+              Environment.Exit(1);
+            }
+          }
+        }
+
+        if (a.Contains("-i") || hostToPing.Length > 0)
+        {
+          var i1 = Array.FindIndex(args, row => row.Contains("-i"));
+          if (i1 >= 0)
+          {
+            if ((args.Length - 1) >= (i1 + 1))
+            {
+              hostToPing = args[i1 + 1];
+            }
+            else
+            {
+              Console.WriteLine("YOU DIDN'T SPECIFY A HOST OR IP ADDRESS!");
+              Environment.Exit(1);
+            }
           }
         }
       }
 
+      sendToOutput($"program version: {version}", true);
+      sendToOutput($"running at: " + DateTime.Now, true);
+
       /* detect host/ip */
-      if (Regex.IsMatch(args[0], @"^[a-zA-Z0-9.-]+$"))
+      if (Regex.IsMatch(hostToPing, @"^[a-zA-Z0-9.-]+$"))
       {
         /* verify ip address */
-        if (Regex.IsMatch(args[0], @"^[0-9.]+$"))
+        if (Regex.IsMatch(hostToPing, @"^[0-9.]+$"))
         {
           IPAddress ip;
-          IPAddress.TryParse(args[0], out ip);
+          IPAddress.TryParse(hostToPing, out ip);
           if (ip == null)
           {
-            Console.WriteLine($"Wrong ip address detected! ({args[0]})");
+            sendToOutput($"Wrong ip address detected! ({hostToPing})", true);
             Environment.Exit(1);
           }
           hostToPing = ip.ToString();
@@ -61,23 +99,23 @@ namespace PingMe
           /* no ip detected - it must be a dns name */
           try
           {
-            IPHostEntry host = Dns.GetHostEntry(args[0]);
+            IPHostEntry host = Dns.GetHostEntry(hostToPing);
             hostToPing = host.HostName;
           }
           catch (Exception)
           {
-            Console.WriteLine($"Host {args[0]} cannot be resolved....");
+            sendToOutput($"Host {hostToPing} cannot be resolved...", true);
             Environment.Exit(1);
           }
         }
       }
       else
       {
-        Console.WriteLine("Wrong input detected! Are you kidding me?!");
+        sendToOutput("Wrong input detected! Are you kidding me?!", true);
         Environment.Exit(2);
       }
 
-      Console.WriteLine($"host: {hostToPing}");
+      sendToOutput($"host: {hostToPing}", true);
 
       /* os detection */
       var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
@@ -90,7 +128,7 @@ namespace PingMe
       }
       else if (isOSX)
       {
-        Console.WriteLine("OSX currently not implemented!");
+        sendToOutput("OSX currently not implemented!", true);
       }
       else if (isWindows)
       {
@@ -98,15 +136,16 @@ namespace PingMe
       }
       else
       {
-        Console.WriteLine("NO OPERATING SYSTEM DETECTED - WHAT ARE YOU USING?!");
-        Console.WriteLine("If you are kind, please inform the developer!");
+        sendToOutput("NO OPERATING SYSTEM DETECTED - WHAT ARE YOU USING?!", true);
+        sendToOutput("If you are kind, please inform the developer!", true);
       }
     }
 
     private void pingWithLinux(string host)
     {
       bool isPingable = true;
-      Console.WriteLine("initial ALIVE - " + DateTime.Now);
+
+      sendToOutput("initial ALIVE - " + DateTime.Now, true);
       while (true)
       {
         var process = new Process();
@@ -127,27 +166,26 @@ namespace PingMe
           {
             if (!isPingable)
             {
-              Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
+              sendToOutput($"\nHost {host} is now ALIVE - " + DateTime.Now, true);
               isPingable = true;
             }
-            Console.Write(".");
+            sendToOutput(".", false);
           }
           else
           {
             if (isPingable)
             {
-              Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
+              sendToOutput($"\nHost {host} is now DEAD - " + DateTime.Now, true);
               isPingable = false;
             }
-            Console.Write(".");
+            sendToOutput(".", false);
           }
 
           Thread.Sleep(timeBetweenPings);
-
         }
         catch (Exception)
         {
-          Console.WriteLine("Problem finding program ping! Please inform the developer!");
+          sendToOutput("Problem finding program ping! Please inform the developer!", true);
         }
       }
     }
@@ -155,7 +193,8 @@ namespace PingMe
     private void pingWithWindows(string host)
     {
       bool isPingable = true;
-      Console.WriteLine("initial ALIVE - " + DateTime.Now);
+
+      sendToOutput("initial ALIVE - " + DateTime.Now, true);
       while (true)
       {
         var process = new Process();
@@ -175,108 +214,79 @@ namespace PingMe
           {
             if (!isPingable)
             {
-              Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
+              sendToOutput($"\nHost {host} is now ALIVE - " + DateTime.Now, true);
               isPingable = true;
             }
-            Console.Write(".");
+            sendToOutput(".", false);
           }
           else
           {
             if (isPingable)
             {
-              Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
+              sendToOutput($"\nHost {host} is now DEAD - " + DateTime.Now, true);
               isPingable = false;
             }
-            Console.Write(".");
+            sendToOutput(".", false);
           }
 
           Thread.Sleep(timeBetweenPings);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-          Console.WriteLine("Problem finding program ping! Please inform the developer!");
+          sendToOutput($"Problem finding program ping! Please inform the developer! (error: {e})", true);
         }
+      }
+    }
+
+    private void sendToOutput(string message, bool newLine)
+    {
+      try
+      {
+        if (logToFile)
+        {
+          using (StreamWriter w = File.AppendText(logfile))
+          {
+            if (newLine)
+            {
+              w.WriteLine(message);
+            }
+            else
+            {
+              w.Write(message);
+            }
+          }
+        }
+      }
+      catch (UnauthorizedAccessException)
+      {
+        Console.WriteLine($"Writing not allowed on {logfile}");
+      }
+      catch (Exception)
+      {
+        Console.WriteLine($"Error with logfile: {logfile}");
+      }
+
+      if (newLine)
+      {
+        Console.WriteLine(message);
+      }
+      else
+      {
+        Console.Write(message);
       }
     }
 
     private void printHelp()
     {
-      Console.WriteLine("Usage: pingme {host} [args] ");
+      Console.WriteLine("Usage: pingMe [args] -i host [args] ");
       Console.WriteLine("args can be: ");
       Console.WriteLine(" -h / --help: print this page");
+      Console.WriteLine(" -i: dns hostname or ip address" );
+      Console.WriteLine("     this argument is mandatory!");
+      Console.WriteLine(" -l: write output to logfile and console");
       Console.WriteLine("------- still under development! --------");
-      Console.WriteLine(" -l / --log: write output to logfile and console");
-      Console.WriteLine(" -L / --logOnly: write output to logfile only");
-      Console.WriteLine("                 does not output anything to console");
-      Console.WriteLine(" -m / --mail: send mail to that address when status changes");
-      Console.WriteLine("              currently only one mail address is possible.");
+      Console.WriteLine(" -m: send mail to that address when status changes");
+      Console.WriteLine("     currently only one mail address is possible.");
     }
-
-    //private bool checkResolvablenessLinux(string host)
-    //{
-    //  bool retValue = false;
-    //  var process = new Process();
-    //  try
-    //  {
-    //    process.StartInfo.FileName = "ping";
-    //    process.StartInfo.Arguments = $"-c 1 {host}";
-    //    process.StartInfo.CreateNoWindow = true;
-    //    process.StartInfo.UseShellExecute = false;
-    //    process.StartInfo.RedirectStandardOutput = true;
-    //    process.Start();
-
-    //    String s = process.StandardOutput.ReadToEnd();
-
-    //    if (s.Contains(" 0% packet loss"))
-    //    {
-    //      retValue = true;
-    //    }
-    //    else
-    //    {
-    //      retValue = false;
-    //    }
-
-    //  }
-    //  catch (Exception e)
-    //  {
-    //    Console.WriteLine($"EXCEPTION-12: {e}");
-    //    retValue = false;
-    //  }
-    //  return retValue;
-    //}
-
-    //private bool checkResolvablenessWindows(string host)
-    //{
-    //  bool retValue = false;
-    //  var process = new Process();
-    //  try
-    //  {
-    //    process.StartInfo.FileName = "ping";
-    //    process.StartInfo.Arguments = $"-n 1 {host}";
-    //    process.StartInfo.CreateNoWindow = true;
-    //    process.StartInfo.UseShellExecute = false;
-    //    process.StartInfo.RedirectStandardOutput = true;
-    //    process.Start();
-
-    //    String s = process.StandardOutput.ReadToEnd();
-
-    //    if (s.Contains("(0% loss)"))
-    //    {
-    //      retValue = true;
-    //    }
-    //    else
-    //    {
-    //      retValue = false;
-    //    }
-
-    //  }
-    //  catch (Exception e)
-    //  {
-    //    Console.WriteLine($"EXCEPTION-12: {e}");
-    //    retValue = false;
-    //  }
-    //  return retValue;
-    //}
-
   }
 }

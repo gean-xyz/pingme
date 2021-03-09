@@ -1,8 +1,7 @@
 {
   "profiles": {
     "PingMe": {
-      "commandName": "Project",
-      "commandLineArgs": "4.2.2.12"
+      "commandName": "Project"
     }
   }
 }
