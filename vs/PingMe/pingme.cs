@@ -8,29 +8,55 @@ namespace PingMe
 {
   public class pingme
   {
+    private string version = "v0.3-2021";
     private int timeBetweenPings = 1000;
     private string hostToPing = "";
 
     public pingme(string[] args)
     {
+      Console.WriteLine($"pingme version: {version}");
+      Console.WriteLine("");
+
+
       // no host/ip 
-      if (args.Length == 0)
+      if (args == null || args.Length == 0)
       {
-        Console.WriteLine("No hosts specified!");
+        Console.WriteLine("No hosts or ip specified!");
         Environment.Exit(1);
       }
+      else
+      {
+        foreach (string a in args)
+        {
+          if (a.Contains("--help") || a.Contains("-h"))
+          {
+            printHelp();
+            Environment.Exit(0);
+          }
 
-      // detect input
+          if (a.Contains("-l") || a.Contains("--log"))
+          {
+            Console.WriteLine("-l / --log detected!");
+            Console.WriteLine("jo und jetzt?");
+          }
+        }
+      }
+
+
+      // detect host/ip
       if (Regex.IsMatch(args[0], @"^[a-zA-Z0-9.-]+$"))
       {
-        Console.WriteLine("good input detected!");
         hostToPing = args[0];
       }
       else
       {
-        Console.WriteLine("false input detected!");
+        Console.WriteLine("Wrong input detected! Are you kidding me?!");
         Environment.Exit(2);
       }
+
+
+     
+      Console.WriteLine($"host: {hostToPing}");
 
 
       // os detection
@@ -203,6 +229,7 @@ namespace PingMe
           process.StartInfo.CreateNoWindow = true;
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
+          process.StartInfo.RedirectStandardError = true;
           process.Start();
 
           String s = process.StandardOutput.ReadToEnd();
@@ -215,7 +242,7 @@ namespace PingMe
             }
             else
             {
-              Console.WriteLine($"Host {host} is now ALIVE - " + DateTime.Now);
+              Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
             }
             isPingable = true;
           }
@@ -223,7 +250,7 @@ namespace PingMe
           {
             if (isPingable)
             {
-              Console.WriteLine($"Host {host} is now DEAD - " + DateTime.Now);
+              Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
             }
             else
             {
@@ -244,5 +271,19 @@ namespace PingMe
 
 
     }
+
+    private void printHelp()
+    {
+      Console.WriteLine("Usage: pingme {host} [args] ");
+      Console.WriteLine("args can be: ");
+      Console.WriteLine(" -h / --help: print this page");
+      Console.WriteLine("------- still under development! --------");
+      Console.WriteLine(" -l / --log: write output to logfile and console" );
+      Console.WriteLine(" -L / --logOnly: write output to logfile only");
+      Console.WriteLine("                 does not output anything to console");
+      Console.WriteLine(" -m / --mail: send mail to that address when status changes");
+      Console.WriteLine("              currently only one mail address is possible.");
+    }
+    
   }
 }
