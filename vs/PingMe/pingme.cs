@@ -149,6 +149,7 @@ namespace PingMe
           process.StartInfo.CreateNoWindow = true;
           process.StartInfo.UseShellExecute = false;
           process.StartInfo.RedirectStandardOutput = true;
+          process.StartInfo.RedirectStandardError = true;
           process.Start();
 
           String s = process.StandardOutput.ReadToEnd();
