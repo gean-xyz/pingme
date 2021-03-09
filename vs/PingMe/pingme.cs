@@ -289,11 +289,15 @@ namespace PingMe
       {
         if (newLine)
         {
+          Console.ForegroundColor = ConsoleColor.Red;
           Console.WriteLine(message);
+          Console.ResetColor();
         }
         else
         {
+          Console.ForegroundColor = ConsoleColor.Blue;
           Console.Write(message);
+          Console.ResetColor();
         }
       }
     }
