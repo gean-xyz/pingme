@@ -162,7 +162,7 @@ namespace PingMe
             }
             else
             {
-              Console.WriteLine($"Host {host} is now ALIVE - " + DateTime.Now);
+              Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
             }
             isPingable = true;
           }
@@ -170,7 +170,7 @@ namespace PingMe
           {
             if (isPingable)
             {
-              Console.WriteLine($"Host {host} is now DEAD - " + DateTime.Now);
+              Console.WriteLine($"\nHost {host} is now DEAD - " + DateTime.Now);
             }
             else
             {
