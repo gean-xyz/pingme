@@ -107,7 +107,7 @@ namespace PingMe
 
     private void pingWithLinux(string host)
     {
-      bool isPingable = false;
+      bool isPingable = true;
       while (true)
       {
         var process = new Process();
@@ -161,7 +161,7 @@ namespace PingMe
 
     private void pingWithWindows(string host)
     {
-      bool isPingable = false;
+      bool isPingable = true;
       while (true)
       {
         var process = new Process();
