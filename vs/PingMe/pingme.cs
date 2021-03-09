@@ -67,12 +67,13 @@ namespace PingMe
         {
           // no ip detected - it must be a dns name
           IPHostEntry host = null;
+
           try
           {
             host = Dns.GetHostEntry(args[0]);
             hostToPing = host.HostName;
           }
-          catch (Exception e)
+          catch (Exception)
           {
             Console.WriteLine($"Host {args[0]} cannot be resolved....");
             Environment.Exit(1);
