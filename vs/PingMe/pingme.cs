@@ -128,7 +128,7 @@ namespace PingMe
           {
             if (!isPingable)
             {
-              Console.WriteLine($"\n\\033[32mHost {host} is now ALIVE\\e[0m - " + DateTime.Now);
+              Console.WriteLine($"\nHost {host} is now ALIVE - " + DateTime.Now);
               isPingable = true;
             }
             Console.Write(".");
