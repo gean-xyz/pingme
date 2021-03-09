@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PingMe": {
+      "commandName": "Project",
+      "commandLineArgs": "os-apps.eurogast.at"
+    }
+  }
+}
