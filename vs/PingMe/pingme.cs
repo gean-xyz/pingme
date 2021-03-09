@@ -287,18 +287,24 @@ namespace PingMe
 
       if (!quietOutput)
       {
-        if (newLine)
+        if (message.Contains("ALIVE"))
+        {
+          Console.ForegroundColor = ConsoleColor.Green;
+        }
+        else if (message.Contains("DEAD"))
         {
           Console.ForegroundColor = ConsoleColor.Red;
+        }
+
+        if (newLine)
+        {
           Console.WriteLine(message);
-          Console.ResetColor();
         }
         else
         {
-          Console.ForegroundColor = ConsoleColor.Blue;
           Console.Write(message);
-          Console.ResetColor();
         }
+        Console.ResetColor();
       }
     }
 
